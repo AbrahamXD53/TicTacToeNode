@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chat</title>
+
+    <style>
+        #messages {
+            width: 95%;
+            max-width: 400px;
+            height: 350px;
+            overflow-y: scroll;
+            border: 1px solid #EEE;
+            box-shadow: 0px 0px 20px #ccc inset;
+        }
+
+        .message {
+            margin: 20px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background: white;
+        }
+
+        .ttt {
+            min-width: 60px;
+            min-height: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        
+        <div class="login" id="login" v-if="logged==false">
+            <input type="text" name="username" id="" v-model="username">
+            <button type="button" v-on:click="login">Ok</button>
+        </div>
+        <div class="search" id="search" v-if="logged==true && playing==false">
+            <button type="button" v-on:click="search">Search</button>
+        </div>
+        
+        <div id="game" v-if="playing==true || (winner!=0 && logged==true)">
+            <div v-if="winner==0">
+                <p v-if="player==playerTurn">
+                    Your turn
+                </p>
+                <p v-else>
+                    Oponent turn
+                </p>
+            </div>
+            <div v-else>
+                <p v-if="player==winner">
+                    You win
+                </p>
+                <p v-else>
+                    You loose
+                </p>
+            </div>
+            <br>
+
+            <button class="ttt" v-on:click="sendButton(0,0)">{{ board[0][0]>0?"X":(board[0][0]<0?"O":"?") }}</button>
+            <button class="ttt" v-on:click="sendButton(1,0)">{{ board[0][1]>0?"X":(board[0][1]<0?"O":"?") }}</button>
+            <button class="ttt" v-on:click="sendButton(2,0)">{{ board[0][2]>0?"X":(board[0][2]<0?"O":"?") }}</button>
+            <br>
+            <button class="ttt" v-on:click="sendButton(0,1)">{{ board[1][0]>0?"X":(board[1][0]<0?"O":"?") }}</button>
+            <button class="ttt" v-on:click="sendButton(1,1)">{{ board[1][1]>0?"X":(board[1][1]<0?"O":"?") }}</button>
+            <button class="ttt" v-on:click="sendButton(2,1)">{{ board[1][2]>0?"X":(board[1][2]<0?"O":"?") }}</button>
+            <br>
+            <button class="ttt" v-on:click="sendButton(0,2)">{{ board[2][0]>0?"X":(board[2][0]<0?"O":"?") }}</button>
+            <button class="ttt" v-on:click="sendButton(1,2)">{{ board[2][1]>0?"X":(board[2][1]<0?"O":"?") }}</button>
+            <button class="ttt" v-on:click="sendButton(2,2)">{{ board[2][2]>0?"X":(board[2][2]<0?"O":"?") }}</button>
+            <br>
+        </div>
+
+        <div class="surrender" id="surrender" v-if="logged==true && playing==true && winner==0">
+            <button type="button" v-on:click="surrender">Surrender</button>
+        </div>
+
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="ttt.js"></script>
+</body>
+
+</html>

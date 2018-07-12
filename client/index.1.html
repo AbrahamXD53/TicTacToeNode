@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chat</title>
+
+    <style>
+        #messages {
+            width: 95%;
+            max-width: 400px;
+            height: 350px;
+            overflow-y: scroll;
+            border: 1px solid #EEE;
+            box-shadow: 0px 0px 20px #ccc inset;
+        }
+
+        .message {
+            margin: 20px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="chat">
+
+        <message-renderer v-bind:messages="messages"></message-renderer>
+        <form>
+            <input type="text" v-show="firstMessage==true" name="nickname" id="nickname" placeholder="Nick" :value="nickname">
+            <textarea name="text" v-model="text" cols="30" rows="4" placeholder="Mensaje..." ></textarea>
+            <input type="button" v-on:click="addMessage(event)" value="Enviar">
+        </form>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
